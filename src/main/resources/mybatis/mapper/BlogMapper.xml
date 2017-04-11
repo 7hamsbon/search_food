@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ham.dao.BlogMapper" >
+  <resultMap id="BaseResultMap" type="com.ham.entity.Blog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="food_name" property="foodName" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="photo_path" property="photoPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, address, food_name, content, description, ctime, price, photo_path
+  </sql>
+    <sql id="selectByExampleSQL">
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from blog
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ham.entity.BlogExample" >
+    <include refid="selectByExampleSQL"/>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from blog
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from blog
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ham.entity.BlogExample" >
+    delete from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ham.entity.Blog" >
+    insert into blog (id, user_id, address, 
+      food_name, content, description, 
+      ctime, price, photo_path
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR}, 
+      #{foodName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{price,jdbcType=DOUBLE}, #{photoPath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ham.entity.Blog" keyProperty="id" useGeneratedKeys="true">
+    insert IGNORE into blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="foodName != null" >
+        food_name,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="photoPath != null" >
+        photo_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="foodName != null" >
+        #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="photoPath != null" >
+        #{photoPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ham.entity.BlogExample" resultType="java.lang.Integer" >
+    select count(*) from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foodName != null" >
+        food_name = #{record.foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.photoPath != null" >
+        photo_path = #{record.photoPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      address = #{record.address,jdbcType=VARCHAR},
+      food_name = #{record.foodName,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      price = #{record.price,jdbcType=DOUBLE},
+      photo_path = #{record.photoPath,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ham.entity.Blog" >
+    update blog
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="foodName != null" >
+        food_name = #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="photoPath != null" >
+        photo_path = #{photoPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ham.entity.Blog" >
+    update blog
+    set user_id = #{userId,jdbcType=BIGINT},
+      address = #{address,jdbcType=VARCHAR},
+      food_name = #{foodName,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DOUBLE},
+      photo_path = #{photoPath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <!--以下自定义-->
+
+  <resultMap id="vo_map" type="com.ham.vo.BlogVO" extends="BaseResultMap">
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_head_path" property="userHeadPath" jdbcType="VARCHAR" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    <result column="collect_time" property="collectTime" jdbcType="INTEGER" />
+  </resultMap>
+
+  <select id="selectByExampleWithVo" resultMap="vo_map">
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" /> ,IFNULL(like_count,0) like_count,user_name,user_head_path/*,IFNULL(comment_count,0) comment_count*/
+    from blog
+      left join (select blog_id,count(*) like_count from likeit group by blog_id) l on blog.id=l.blog_id,(SELECT id u_id,username user_name,photo_url user_head_path FROM user ) u
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    and l.blog_id=blog.id and blog.user_id =u.u_id
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+    <select id="selectByExampleIntoVo" resultMap="vo_map">
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />,user_name,user_head_path
+        from blog,(SELECT id u_id,username user_name,photo_url user_head_path FROM user ) u
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if> and blog.user_id=u.u_id
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+  <select id="selectPersonalBlogIds" resultType="java.lang.Long">
+      select id
+      from blog
+      where user_id=#{id};
+  </select>
+
+  <select id="searchByKeyword" resultMap="vo_map">
+      select <include refid="Base_Column_List" />
+      from `blog`
+      where match (address,food_name,content,description) against (#{keyword})
+      ORDER BY ctime desc;
+  </select>
+
+    <select id="searchByKeywordAndLike" resultMap="vo_map">
+        select <include refid="Base_Column_List" />,IFNULL(like_count,0) like_count
+        from (select * from `blog` where match (address,food_name,content,description) against (#{keyword})) b
+        left join (select blog_id,count(*) like_count from likeit group by blog_id) l on b.id=l.blog_id
+        ORDER BY like_count desc;
+    </select>
+
+  <select id="fuzzySearch" resultMap="vo_map">
+      select <include refid="Base_Column_List" />,user_name,user_head_path
+      from `blog`,(select id u_id,username user_name,photo_url user_head_path from user) u
+      where match (address,food_name,content,description) against (#{keyword}) AND blog.user_id=u.u_id;
+  </select>
+
+    <select id="selectCollectBlogByUserId" resultMap="vo_map">
+
+        SELECT c.blog_id id,b.user_id,b.address,b.food_name,b.content,b.description,b.ctime,b.price,b.photo_path,c.ctime collect_time,user_name,user_head_path
+        FROM (SELECT blog_id,ctime FROM collect WHERE user_id = #{userId}) c
+          LEFT JOIN blog b ON c.blog_id=b.id
+          LEFT JOIN (SELECT id,username user_name,photo_url user_head_path FROM user ) u  ON u.id=b.user_id
+        ORDER BY  c.ctime DESC ;
+    </select>
+
+</mapper>

@@ -1,0 +1,54 @@
+#example1{
+    background-color:#d9d6d4;
+    top:30px;
+    /*height:100%;*/
+    width:100%;
+    padding-left: 30%;
+    margin-top: 80px;
+}
+body{
+    background-color:#d9d6d4;
+}
+#cont{
+    background-color:#ffffff;
+    border:2px solid #dbdbdb;
+    border-radius:10px;
+    margin-bottom: 25px;
+    width: 330px;
+    /*height: 330px;*/
+    margin-top: 90px;
+    margin-left: 20px;
+}
+#headPic{
+    margin-top: 9px
+}
+#p_divider{
+    padding-left: 20px;padding-right: 20px;
+}
+.link{
+    color: #000000
+}
+#comment{
+    display: none;
+}
+.fileInput{
+    left: 15px;
+    top: 14px;
+    height:128px;
+    width: 128px;
+    font-size: 1px;
+    position:absolute;
+    opacity: 0;
+    filter:alpha(opacity=0);
+    cursor:pointer;
+}
+#pub_pic{
+    background: url(/pic?filePath=default_food.png);
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 150px;
+}
+.blog .segment{
+    font-family: 'Microsoft YaHei', sans-serif;
+    width: 100%;
+}

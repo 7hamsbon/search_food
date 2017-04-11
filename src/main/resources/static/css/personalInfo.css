@@ -1,0 +1,37 @@
+body{
+    background-color: #d9d7d9;
+}
+#error_modal{
+    top: 3100px; display: block !important;padding-top: 20px
+}
+#example1{
+    margin-left:16%;
+    margin-top: 90px;
+    width: 68%;
+    border-radius: 10px;
+    padding:30px;
+    background-color: #ffffff;
+}
+.user.header{
+    border:2px solid #66677c;
+    width: 150px;
+    height: 150px;
+    margin-top:0px;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-background-size: 150px 150px;
+    position:relative;
+    border-radius: 75px;
+}
+.fileInput{
+    height:150px;
+    width: 150px;
+    border-radius: 75px;
+    font-size: 1px;
+    position:absolute;
+    right:0;
+    top:0;
+    opacity: 0;
+    filter:alpha(opacity=0);
+    cursor:pointer;
+}

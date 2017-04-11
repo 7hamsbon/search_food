@@ -1,0 +1,24 @@
+.blog{
+    padding-left: 30%;
+    margin-top: 90px;
+}
+.blog .out_f{
+    border: 2px solid #dbdbdb;
+    width:700px;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 10px
+}
+.blog img{
+    margin-left: 10px;
+    margin-top: 10px
+}
+.blog .row{
+    padding-bottom: 0px
+}
+.blog .segment{
+    font-family: 'Microsoft YaHei', sans-serif;
+}
+.blog .like_a{
+    width: 35px;
+}

@@ -1,0 +1,54 @@
+.blog{
+    margin-bottom:10px;
+    margin-top:10px;
+}
+.out_f{
+    border: 2px solid rgb(219, 219, 219);
+    width: 700px;
+    margin-top: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+#user_head_pic{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+#username_row{
+    padding-top: 30px;
+    padding-bottom: 0px;
+}
+#ctime_row{
+    padding-top: 5px;
+    padding-bottom: 0px;
+}
+#ctime_meta{
+    color: rgb(116, 119, 123);
+}
+#third_row{
+    padding-top: 9px;
+    padding-bottom: 0px;
+}
+#content_segment{
+    width: 100%;
+}
+#like_label{
+    width: 35px;
+}
+#foodname_header{
+    margin-top: 0px;
+}
+#content_segment p{
+    color: rgb(116, 119, 123);
+}
+#fourth_row{
+    color: rgb(61, 68, 68);
+    padding-top: 3px;
+    margin-bottom: 9px;
+    padding-bottom: 13px;
+}
+#comment_btn_div{
+    margin-top: 5px;
+}
+#fifth_row{
+    display: none;
+}

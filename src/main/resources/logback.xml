@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <logger name="sample.logback" level="DEBUG" />
+    <springProfile name="staging">
+        <logger name="sample.logback" level="TRACE" />
+    </springProfile>
+    <logger name="com.ham.dao" level="DEBUG"/>
+    <logger name="com.ham.service" level="DEBUG"/>
+</configuration>
