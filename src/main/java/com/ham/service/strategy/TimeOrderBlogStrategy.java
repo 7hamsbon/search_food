@@ -4,6 +4,7 @@ import com.ham.dao.BlogMapper;
 import com.ham.entity.BlogExample;
 import com.ham.vo.BlogVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,10 +17,15 @@ import java.util.List;
 @Component
 public class TimeOrderBlogStrategy extends BaseBlogStrategy {
 
+    public TimeOrderBlogStrategy(){
+        ;
+    }
+
     @Autowired
     private BlogMapper blogMapper;
 
     @Override
+    @Cacheable(value="blog",key="'id_'+#ids")
     public List<BlogVO> getBlogsByIds(List<Long> ids) {
         List<BlogVO> result = null;
         if(ids != null && ids.size() > 0){
@@ -33,17 +39,6 @@ public class TimeOrderBlogStrategy extends BaseBlogStrategy {
         }
         return result;
     }
-
-//    @Override
-//    public List<BlogVO> getBlogsByKeyword(String keyword) {
-//        List<BlogVO> result = null;
-//        if(!StringUtils.isNullOrEmpty(keyword)){
-//            result = blogMapper.searchByKeywordWithFullText(keyword);
-//            loadLikeNum(result);
-//            loadCommentCount(result);
-//        }
-//        return result;
-//    }
 
 
 }

@@ -4,6 +4,33 @@
 var photo_url="default_food.png";
 var module = new Object({
     page_init:function () {
+        var aud = $("#music_player");
+        aud[0].pause();
+        // aud.attr("src","/music/bgm1.mp3");
+        aud.attr("src","/pic?filePath="+music_list[0]);
+        aud[0].play();
+        aud.bind('ended',function () {
+            var music_index = parseInt(Math.random()*music_list.length);
+            console.log("即将播放第"+music_index+"首，歌曲地址-->>"+music_list[music_index]);
+            aud[0].pause();
+            var luyinpath = "/pic?filePath="+music_list[music_index];
+            aud.attr('src', luyinpath);
+            aud[0].play();
+        });
+        /* 音乐控制div */
+        var $pub_btn_div = $("<div></div>")
+            .addClass("circular ui inverted violet icon button")
+            .css("margin-left","20px")
+            .attr("onclick","module.toggle_music_play()")
+            .attr("id","music_toggle_btn")
+            .attr("data-inverted","")
+            .attr("data-tooltip","Stop Music")
+            .attr("data-position","bottom left");
+        var $pub_btn_i = $('<i id="music_controller_i"></i>').addClass("loading icon Pause Circle");
+        $pub_btn_div.append($pub_btn_i);
+        $('#homepage_btn').after($pub_btn_div);
+
+        /* 发布博客按钮div */
         var $pub_btn_div = $("<div></div>")
             .addClass("circular ui inverted blue icon button")
             .css("margin-left","20px")
@@ -15,6 +42,7 @@ var module = new Object({
         var $pub_btn_i = $('<i></i>').addClass("loading icon Share Alternate");
         $pub_btn_div.append($pub_btn_i);
         $('#homepage_btn').after($pub_btn_div);
+
 
         // $('#head')
         //     .sticky({
@@ -34,6 +62,22 @@ var module = new Object({
         $('.test.modal').modal('hide');
         $file = $('#file');
         $file.change(module.upload);
+    },
+    toggle_music_play:function () {
+        var $music_btn = $('#music_toggle_btn');
+        var $music_player = $('#music_player');
+        var $music_controll_i = $('#music_controller_i');
+        if($music_controll_i.hasClass("Pause Circle")){
+            $music_player[0].pause();
+            $music_btn.attr("data-tooltip","Play Music");
+            $music_controll_i.removeClass("Pause Circle");
+            $music_controll_i.addClass("Play");
+        }else{
+            $music_player[0].play();
+            $music_btn.attr("data-tooltip","Stop Music");
+            $music_controll_i.removeClass("Play");
+            $music_controll_i.addClass("Pause Circle");
+        }
     },
    upload:function () {
        var fd = new FormData();
@@ -123,6 +167,8 @@ var module = new Object({
                                         .modal('show');
                                     var $new_blog_view = common.generate_blog_view('/pic?filePath='+data.data.userHeadPath,$('#username').text(),new Date(),pri_val,data.data.id,"/pic?filePath="+photo_url,fn_val,con_val,desc_val,addr_val,0,0,false,data.data.userId,false,null,true);
                                     $('#example1').prepend($new_blog_view);
+                                    var blogNumSpan = $('.blog_num_span');
+                                    blogNumSpan.text(parseInt(blogNumSpan.text())+1);
                                 }
                             },
                             error:function () {

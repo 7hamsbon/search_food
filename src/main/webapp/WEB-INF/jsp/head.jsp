@@ -9,7 +9,7 @@
 <%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <%--首页头--%>
 <div id="head" class="ui fixed top sticky" style="left:0px;width: 100% !important; !important;">
-    <div class="ui segment" style="padding-left: 40%;background-color: #37474f;height: 60px">
+    <div class="ui segment" style="padding-left: 10%;background-color: #37474f;height: 60px">
             <shiro:authenticated>
                 <div id="homepage_btn" onclick="common.redirect_to_homepage()" class="circular ui inverted olive icon button"  data-inverted="" data-tooltip="Home" data-position="bottom left"><i class="loading icon home"></i></div>
             </shiro:authenticated>

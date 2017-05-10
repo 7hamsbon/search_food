@@ -85,8 +85,8 @@
                                     <label>Age</label>
                                     <div class="ui icon input">
                                         <i class="Child icon"></i>
-                                        <input type="text" placeholder="Age" id="age" value="<shiro:principal property='age'/>">
-                                        <%--<input type="text" placeholder="Age" id="age" value="${sessionScope.user.age}">--%>
+                                        <%--<input type="text" placeholder="Age" id="age" value="<shiro:principal property='age' defaultValue=""/>">--%>
+                                        <input type="text" placeholder="Age" id="age" value="${sessionScope.user.age}">
                                     </div>
                                 </div>
                                 <div class="field">
@@ -94,7 +94,8 @@
                                     <div class="ui icon input">
                                         <i class="phone icon"></i>
                                         <%--<input type="text" placeholder="Phone" id="phone" value="${sessionScope.user.phone}">--%>
-                                        <input type="text" placeholder="Phone" id="phone" value="<shiro:principal property='phone'/>">
+
+                                        <input type="text" placeholder="Phone" id="phone" value="<shiro:principal property='phone' defaultValue=''/>">
                                     </div>
                                 </div>
                             </div>
@@ -102,8 +103,9 @@
                         <div class="row">
                             <div class="field">
                                 <label>Profile</label>
-                                <textarea style="resize: none" id="summ" placeholder="Profile"><shiro:principal property="summary"/> </textarea>
-                                <%--<textarea style="resize: none" id="summ" placeholder="Profile">${sessionScope.user.summary}</textarea>--%>
+
+                                <%--<textarea style="resize: none" id="summ" placeholder="Profile"><shiro:principal property='summary' defaultValue=''/></textarea>--%>
+                                <textarea style="resize: none" id="summ" placeholder="Profile">${sessionScope.user.summary}</textarea>
                             </div>
                         </div>
                     </div>

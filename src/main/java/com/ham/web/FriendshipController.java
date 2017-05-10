@@ -24,7 +24,6 @@ public class FriendshipController {
 
     @PostMapping("/add")
     @Description("关注")
-    @RequiresUser
     public OpResult<FriendshipVO> addFriendship(FriendshipVO friendship){
 //        User user = (User)session.getAttribute("user");
         User user = (User) SecurityUtils.getSubject().getPrincipal();

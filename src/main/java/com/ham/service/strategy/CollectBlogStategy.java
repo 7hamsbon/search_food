@@ -18,6 +18,7 @@ public class CollectBlogStategy extends BaseBlogStrategy {
     private BlogMapper blogMapper;
 
     @Override
+//    @Cacheable(value = "blog-collect",key = "'blog_collect_id_'+#ids")
     public List<BlogVO> getBlogsByIds(List<Long> ids) {
         List<BlogVO> blogs = null;
         if(ids!=null && ids.size()>0){

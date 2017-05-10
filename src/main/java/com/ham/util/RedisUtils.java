@@ -3,6 +3,7 @@ package com.ham.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -23,6 +24,7 @@ public class RedisUtils {
     private static boolean on = true;
 
     @Autowired
+    @DependsOn({"jedisPool"})
     public void setJedisPool(JedisPool jedisPool) {
         RedisUtils.jedisPool = jedisPool;
     }
@@ -34,8 +36,8 @@ public class RedisUtils {
                 jedis = jedisPool.getResource();
             }
         }catch (Exception e){
-            on = false;
-//            logger.debug(e.getMessage(),e);
+//            on = false;
+            logger.error(e.getMessage(),e);
             logger.error("Redis 配置错误或者服务未开启");
         }
         return jedis;
@@ -74,6 +76,16 @@ public class RedisUtils {
     public static Long incr(String key){
         Jedis jedis = getJedis();
         Long result = (jedis != null ? (exists(key)?jedis.incr(key):-1) : null);
+        returnResource(jedis);
+        return result;
+    }
+
+    /**
+     * 自减，如果不存在返回-1
+     */
+    public static Long decr(String key){
+        Jedis jedis = getJedis();
+        Long result = (jedis != null ? (exists(key)?jedis.decr(key):-1) : null);
         returnResource(jedis);
         return result;
     }

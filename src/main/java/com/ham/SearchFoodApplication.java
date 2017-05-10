@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @SpringBootApplication
-//@EnableAutoConfiguration
+@EnableAutoConfiguration
 @MapperScan("com.ham.dao")
 public class SearchFoodApplication {
 

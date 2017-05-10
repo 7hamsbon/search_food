@@ -33,7 +33,7 @@ var common = new Object({
                         .css("background-repeat","no-repeat")
                         .css("-webkit-background-size",size+" "+size);
                 }else{
-                    alert(data.opMsg);
+                    alert("错误信息--->>>"+data.opMsg);
                 }
             },
             error: function () {
@@ -127,7 +127,7 @@ var common = new Object({
         collect_btn.append(collect_icon);
         collect_btn.append(collect_text_span);
         comment_column_div.append(collect_btn);
-        var comment_btn = $('<button></button>').attr("onclick","common.comment_toggle("+blog_id+")").addClass("ui small right floated basic blue button").text("Comments("+commentNum+")");
+        var comment_btn = $('<button></button>').attr("onclick","common.comment_toggle("+blog_id+")").addClass("ui small right floated basic blue button").html("Comments(<span id='blog_comment_count_"+blog_id+"'>"+commentNum+"</span>)");
         comment_column_div.append(comment_btn);
         content_four_row.append(comment_column_div);
         content_grid.append(content_four_row);
@@ -313,6 +313,8 @@ var common = new Object({
                         var $comment_container = $('#comment_container_'+blog_id);
                         $comment_container.prepend(common.generate_comment('/pic?filePath='+head_pic_url,userName,new Date(),com_val,data.data.userId));
                         $comment_input.val("");
+                        var blogCommentCountSpan = $('#blog_comment_count_'+blog_id);
+                        blogCommentCountSpan.text(parseInt(blogCommentCountSpan.text())+1);
                     }
                 },
                 error:function () {
@@ -343,7 +345,7 @@ var common = new Object({
                     if(data.success){
                         $collect_icon.removeClass("grey");
                         $collect_icon.addClass("yellow");
-                        $collect_text_span.text("取消点赞");
+                        $collect_text_span.text("取消收藏");
                     }else{
                         alert(data.opMsg);
                     }
@@ -354,7 +356,7 @@ var common = new Object({
                 if(data.success){
                     $collect_icon.removeClass("yellow");
                     $collect_icon.addClass("grey");
-                    $collect_text_span.text("点赞");
+                    $collect_text_span.text("收藏");
                 }else{
                     alert(data.opMsg);
                 }
@@ -375,6 +377,8 @@ var common = new Object({
             success:function (data) {
                 if(data.success){
                     $('#blog_'+blog_id).transition('fade down');
+                    var blogNumSpan = $('.blog_num_span');
+                    blogNumSpan.text(parseInt(blogNumSpan.text())-1);
                 }else {
                     alert(data.opMsg);
                 }

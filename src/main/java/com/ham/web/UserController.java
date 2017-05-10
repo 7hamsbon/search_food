@@ -16,19 +16,13 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collections;
-import java.util.Random;
 
 /**
  * Created by hamsbon on 2017/2/16.
@@ -44,8 +38,6 @@ public class UserController {
 
     @Autowired
     private PersonalUserStrategy personalUserStrategy;
-
-    private Random random = new Random();
 
     @PostMapping("/update")
     @ResponseBody
@@ -168,26 +160,26 @@ public class UserController {
         return result;
     }
 
-    @GetMapping("/head/{id}")
-    @Description("获取头像")
-    public void getHead(@PathVariable("id")Long id , HttpServletResponse response) throws IOException {
-        OutputStream os = response.getOutputStream();
-        UserVO user = userService.getUserInfo(personalUserStrategy, Collections.singletonList(id)).getData().get(0);
-        OpResult<byte[]> r = fileService.getFile(user.getPhotoUrl());
-        if(r.isSuccess()){
-            os.write(r.getData());
-            os.flush();
-        }
-    }
-
-    @GetMapping("/name/{id}")
-    @Description("获取用户名")
-    @ResponseBody
-    public String getName(@PathVariable("id")Long id , HttpServletResponse response) throws IOException {
-        OutputStream os = response.getOutputStream();
-        UserVO user = userService.getUserInfo(personalUserStrategy, Collections.singletonList(id)).getData().get(0);
-        return user==null?"":user.getUsername();
-    }
+//    @GetMapping("/head/{id}")
+//    @Description("获取头像")
+//    public void getHead(@PathVariable("id")Long id , HttpServletResponse response) throws IOException {
+//        OutputStream os = response.getOutputStream();
+//        UserVO user = userService.getUserInfo(personalUserStrategy, Collections.singletonList(id)).getData().get(0);
+//        OpResult<byte[]> r = fileService.getFile(user.getPhotoUrl());
+//        if(r.isSuccess()){
+//            os.write(r.getData());
+//            os.flush();
+//        }
+//    }
+//
+//    @GetMapping("/name/{id}")
+//    @Description("获取用户名")
+//    @ResponseBody
+//    public String getName(@PathVariable("id")Long id , HttpServletResponse response) throws IOException {
+//        OutputStream os = response.getOutputStream();
+//        UserVO user = userService.getUserInfo(personalUserStrategy, Collections.singletonList(id)).getData().get(0);
+//        return user==null?"":user.getUsername();
+//    }
 
 
 

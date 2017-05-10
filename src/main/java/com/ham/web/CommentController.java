@@ -5,7 +5,6 @@ import com.ham.service.CommentService;
 import com.ham.vo.CommentVO;
 import com.ham.vo.OpResult;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class CommentController {
 
     @PostMapping("/publish")
     @Description("发表评论")
-    @RequiresPermissions("comment:publish")
+//    @RequiresPermissions("comment:publish")
     public OpResult<CommentVO> publish(CommentVO comment){
 //        User u = (User)session.getAttribute("user");
         User user = (User) SecurityUtils.getSubject().getPrincipal();

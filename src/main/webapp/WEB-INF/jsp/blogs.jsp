@@ -27,6 +27,7 @@
         $(function () {
             var $friend = $('#friend');
             $friend.click(function (event) {
+                var fansNumSpan = $('.fans_num_span');
                 if($friend.hasClass("positive")){
                     $.ajax("/friend/add",{
                         type:"post",
@@ -38,6 +39,7 @@
                                 $friend.removeClass("positive");
                                 $friend.addClass("negative");
                                 $friend.text("取消关注");
+                                fansNumSpan.text(parseInt(fansNumSpan.text())+1);
                             }else{
                                 alert(data.opMsg);
                             }
@@ -54,6 +56,7 @@
                                 $friend.removeClass("negative");
                                 $friend.addClass("positive");
                                 $friend.text("关注一波");
+                                fansNumSpan.text(parseInt(fansNumSpan.text())-1);
                             }else{
                                 alert(data.opMsg);
                             }
@@ -170,8 +173,8 @@
                                         <div class="four wide column">
                                             <div class="ui center aligned container">
                                                 <div class="statistic" data-tooltip="粉丝数">
-                                                    <a class="link" href="http://www.baidu.com">
-                                                        <div class="value" id="fansCount"><i class="purple sitemap icon"></i> ${userResult.data[0].fansNum}</div>
+                                                    <a class="link" href="/fansPage/${userResult.data[0].id}">
+                                                        <div class="value" id="fansCount"><i class="purple sitemap icon"></i> <span class="fans_num_span">${userResult.data[0].fansNum}</span></div>
                                                         <div class="label">Fans</div>
                                                     </a>
                                                 </div>
@@ -180,7 +183,7 @@
                                         <div class="four wide column">
                                             <div class="ui center aligned container">
                                                 <div class="statistic" data-tooltip="关注的人">
-                                                    <a class="link" href="http://www.baidu.com">
+                                                    <a class="link" href="/followerPage/${userResult.data[0].id}">
                                                         <div class="value" id="followersCount"><i class="green users icon"></i> ${userResult.data[0].followerNum}</div>
                                                         <div class="label">Followers</div>
                                                     </a>

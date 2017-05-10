@@ -13,6 +13,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -24,15 +25,19 @@ import java.util.List;
 public class AuthShiroRealm extends AuthorizingRealm {
 
     @Resource
+            @Lazy
     UserService userService;
 
     @Resource
+            @Lazy
     RoleMapper roleMapper;
 
     @Resource
+            @Lazy
     PermissionMapper permissionMapper;
 
     @Resource
+            @Lazy
     RolePermissionMapper rolePermissionMapper;
 
 

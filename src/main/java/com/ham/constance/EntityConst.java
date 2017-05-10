@@ -8,6 +8,11 @@ import java.util.List;
  */
 public class EntityConst {
 
+
+    /**
+     * 默认背景音乐拥有者id
+     */
+    public static final Long DEFAULT_MUSIC_OWNER_ID = 0L;
     /**
      * 默认头像url
      */

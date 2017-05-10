@@ -37,9 +37,9 @@ public class LikeServiceImpl implements LikeService {
                 result.setOpMsg("点赞成功");
 
                 //博客点赞数以及用户点赞数自增
-                String blogLikeCountKey = CacheUtils.getKey(CacheUtils.PREFIX_BLOG,likeit.getId(),CacheUtils.SUBFIX_LIKE_NUM);
+                String blogLikeCountKey = CacheUtils.getKey(CacheUtils.PREFIX_BLOG,likeit.getBlogId(),CacheUtils.SUBFIX_LIKE_NUM);
                 RedisUtils.incr(blogLikeCountKey);
-                Long userId = likeitMapper.selectByPrimaryKey(likeit.getId()).getUserId();
+                Long userId = blogMapper.selectByPrimaryKey(likeit.getBlogId()).getUserId();
                 String userLikeCountKey =CacheUtils.getKey(CacheUtils.PREFIX_USER,userId,CacheUtils.SUBFIX_LIKE_NUM);
                 RedisUtils.incr(userLikeCountKey);
             }else{
@@ -66,6 +66,13 @@ public class LikeServiceImpl implements LikeService {
                 if(likeitMapper.deleteByExample(example)>0){
                    result.setSuccess(true);
                    result.setOpMsg("取消成功");
+
+                   //博客点赞数-1
+                    String blogLikeNumKey = CacheUtils.getKey(CacheUtils.PREFIX_BLOG , blogId ,CacheUtils.SUBFIX_LIKE_NUM);
+                    RedisUtils.decr(blogLikeNumKey);
+                    //用户获得点赞数-1
+                    String userLikeNumKey = CacheUtils.getKey(CacheUtils.PREFIX_USER , blogMapper.selectByPrimaryKey(blogId).getUserId() ,CacheUtils.SUBFIX_LIKE_NUM);
+                    RedisUtils.decr(userLikeNumKey);
                 }
             }
         }

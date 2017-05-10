@@ -150,3 +150,17 @@ CREATE TABLE `role_permission`(
   `permission__id` INTEGER NOT NULL
 )ENGINE=InnoDB DEFAULT CHAR SET utf8 COMMENT '角色权限表';
 INSERT INTO `role_permission`VALUES (1,1,1);
+
+CREATE TABLE `music`(
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `owner_id` BIGINT COMMENT '拥有者id，0表示默认',
+  `music_name` VARCHAR(255) COMMENT '音乐名',
+  `file_path` VARCHAR(255) COMMENT '音乐文件位置',
+  `description` VARCHAR(255) COMMENT '备注'
+)ENGINE=InnoDB DEFAULT CHAR SET utf8 COMMENT '音乐表';
+
+INSERT INTO `music`VALUES (1,0,"bgm1","/music/bgm1.mp3","背景音乐1");
+INSERT INTO `music`VALUES (1,0,"bgm2","/music/bgm2.mp3","背景音乐2");
+
+
+

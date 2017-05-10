@@ -31,35 +31,20 @@ public abstract class BaseBlogStrategy {
     @Autowired
     private CommentMapper commentMapper;
 
-    private Jedis jedis = RedisUtils.getJedis();
+    private Jedis jedis ;
+
+    private Jedis getJedis(){
+        if(jedis==null){
+            jedis = RedisUtils.getJedis();
+        }
+        return jedis;
+    }
 
     /**
      * 根据用户id集获得博客集
      */
     public abstract List<BlogVO> getBlogsByIds(List<Long> ids);
 
-//    public abstract List<BlogVO> getBlogsByKeyword(String keyword);
-
-    /**
-     * 填充是否点赞
-     */
-//    public List<BlogVO> loadIsLike(List<BlogVO> blogList,Long userId){
-//        if(userId!=null){
-//            for(BlogVO blog:blogList){
-//                Long blogId = blog.getId();
-//                LikeitExample example = new LikeitExample();
-//                LikeitExample.Criteria criteria = example.createCriteria();
-//                criteria.andBlogIdEqualTo(blogId);
-//                criteria.andUserIdEqualTo(userId);
-//                if(likeitMapper.countByExample(example)>0){
-//                    blog.setLiked(true);
-//                }else{
-//                    blog.setLiked(false);
-//                }
-//            }
-//        }
-//        return blogList;
-//    }
 
     /**
      * 根据博客id获得博客的点赞数
@@ -75,8 +60,8 @@ public abstract class BaseBlogStrategy {
             //从缓存中查
             String key = CacheUtils.getKey(CacheUtils.PREFIX_BLOG , id ,CacheUtils.SUBFIX_LIKE_NUM);
             String cacheValue = null;
-            if(jedis != null){
-                cacheValue = jedis.get(key);
+            if(getJedis() != null){
+                cacheValue = getJedis().get(key);
             }
             if(StringUtils.isNullOrEmpty(cacheValue)){
                 ids.add(id);
@@ -85,9 +70,6 @@ public abstract class BaseBlogStrategy {
             }else{
                 blog.setLikeCount(Long.parseLong(cacheValue));
             }
-        }
-        if(ids == null || ids.size()<=0){
-
         }
         List<Map<String,Long>> counts = likeitMapper.selectLikeNumByBlogIds(ids);
 
@@ -100,9 +82,9 @@ public abstract class BaseBlogStrategy {
             blogList.get(index).setLikeCount(count);
 
 //            设置缓存
-            if(jedis!=null){
+            if(getJedis()!=null){
                 String key = CacheUtils.getKey(CacheUtils.PREFIX_BLOG , id ,CacheUtils.SUBFIX_LIKE_NUM);
-                jedis.set(key,String.valueOf(count));
+                getJedis().set(key,String.valueOf(count));
             }
         }
         return blogList;
@@ -122,8 +104,8 @@ public abstract class BaseBlogStrategy {
             //从缓存中查
             String key = CacheUtils.getKey(CacheUtils.PREFIX_BLOG , id ,CacheUtils.SUBFIX_BLOG_COMMENT_NUM);
             String cacheValue = null;
-            if(jedis != null){
-                cacheValue = jedis.get(key);
+            if(getJedis() != null){
+                cacheValue = getJedis().get(key);
             }
             if(StringUtils.isNullOrEmpty(cacheValue)){
                 ids.add(id);
@@ -145,9 +127,9 @@ public abstract class BaseBlogStrategy {
             blogList.get(index).setCommentCount(count);
 
             //设置缓存
-            if(jedis!=null){
+            if(getJedis()!=null){
                 String key = CacheUtils.getKey(CacheUtils.PREFIX_BLOG , id ,CacheUtils.SUBFIX_BLOG_COMMENT_NUM);
-                jedis.set(key,String.valueOf(count));
+                getJedis().set(key,String.valueOf(count));
             }
         }
 

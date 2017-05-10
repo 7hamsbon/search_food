@@ -43,11 +43,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public OpResult<byte[]> getFile(String filePath) {
+    public OpResult<byte[]> getFile(String filePath,long pos) {
         OpResult<byte[]> opResult = new OpResult<>(false,null,"获取图片失败");
         File sourceFile = new File(PathUtils.getStaticResourcePath(filePath));
         try {
             InputStream source = new FileInputStream(sourceFile);
+            source.skip(pos);
             byte[] buffer = new byte[(int) sourceFile.length()];
             source.read(buffer);
             opResult.setSuccess(true);

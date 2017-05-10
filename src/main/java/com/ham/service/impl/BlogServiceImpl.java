@@ -3,6 +3,7 @@ package com.ham.service.impl;
 import com.ham.constance.EntityConst;
 import com.ham.dao.BlogMapper;
 import com.ham.service.BlogService;
+import com.ham.service.UserService;
 import com.ham.service.strategy.BaseBlogStrategy;
 import com.ham.service.strategy.TimeOrderBlogStrategy;
 import com.ham.util.CacheUtils;
@@ -29,6 +30,9 @@ public class BlogServiceImpl  implements BlogService {
 
     @Autowired
     private TimeOrderBlogStrategy strategy;
+
+    @Autowired
+    private UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(BlogServiceImpl.class);
 
@@ -65,9 +69,12 @@ public class BlogServiceImpl  implements BlogService {
     public OpResult<String> delete(Long id) {
         OpResult<String> result = new OpResult<>(false,null,"删除失败");
         try{
+            Long userId = blogMapper.selectByPrimaryKey(id).getUserId();
             if(blogMapper.deleteByPrimaryKey(id)>0){
                 result.setSuccess(true);
                 result.setOpMsg("删除成功");
+                String key = CacheUtils.getKey(CacheUtils.PREFIX_USER,userId,CacheUtils.SUBFIX_USER_BLOG_NUM);
+                RedisUtils.decr(key);
             }else{
                 result.setOpMsg("博客不存在");
             }

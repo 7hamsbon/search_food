@@ -66,7 +66,7 @@
                                                             <i class="male blue icon"></i>
                                                         </c:otherwise>
                                                     </c:choose>
-                                                    <a class="content">${user.username} </a>
+                                                    <a class="content" href="/blogs/${user.id}">${user.username} </a>
                                                 </h4>
                                                 <div class="meta">
                                                     <span class="date">Joined in <fmt:formatDate value="${user.registerTime}" pattern="yyyy.MM"/> </span>

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>食·人·族</title>
 <link href="http://cdn.bootcss.com/semantic-ui/2.2.7/semantic.css" rel="stylesheet">
 <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>

@@ -13,5 +13,5 @@ public interface FileService {
      */
     OpResult<String> upload(String basePath, MultipartFile uploadFile);
 
-    OpResult<byte[]> getFile(String filePath);
+    OpResult<byte[]> getFile(String filePath,long pos);
 }

@@ -38,9 +38,9 @@
                             <c:forEach items="${fans.data}" var="fan">
                                 <div class="column" style="margin-bottom: 20px">
                                     <div class="ui fluid card" style="height: 371px">
-                                        <div class="image">
+                                        <a class="image" href="/blogs/${fan.id}">
                                             <img src="/pic?filePath=${fan.photoUrl}" style="height: 150px">
-                                        </div>
+                                        </a>
                                         <div class="content">
                                             <h4 class="ui header">
                                                 <c:choose>
@@ -51,7 +51,7 @@
                                                         <i class="male blue icon"></i>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <a class="content">${fan.username} </a>
+                                                <a class="content" href="<%=request.getContextPath()%>/blogs/${fan.id}">${fan.username} </a>
                                             </h4>
                                             <div class="meta">
                                                 <span class="date"><fmt:formatDate value="${fan.friendTime}" pattern="yyyy.MM.dd"/> 关注 </span>

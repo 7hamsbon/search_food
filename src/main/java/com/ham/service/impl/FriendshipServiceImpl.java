@@ -57,6 +57,12 @@ public class FriendshipServiceImpl implements FriendshipService {
             if(friendshipMapper.deleteByExample(example)>0){
                 result.setSuccess(true);
                 result.setOpMsg("取消关注成功");
+
+                //缓存中相应的粉丝数以及关注人数自减
+                String fansCountKey = CacheUtils.getKey(CacheUtils.PREFIX_USER,follower,CacheUtils.SUBFIX_USER_FANS_NUM);
+                RedisUtils.decr(fansCountKey);
+                String followerCountKey = CacheUtils.getKey(CacheUtils.PREFIX_USER,fans,CacheUtils.SUBFIX_USER_FOLLOWER_NUM);
+                RedisUtils.decr(followerCountKey);
             }else{
                 result.setSuccess(false);
                 result.setOpMsg("未关注");

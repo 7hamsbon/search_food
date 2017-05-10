@@ -7,19 +7,28 @@
   Time: 22:47
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page buffer="1024kb" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>食·人·族</title>
+
     <%@include file="common.jsp"%>
     <link href="/css/homepage.css" rel="stylesheet"/>
+    <script>
+        var music_list = [
+            <c:forEach items="${musicList}" var="music" varStatus="status">
+            "${music.filePath}"
+            <c:if test="${!status.last}">,</c:if>
+        </c:forEach>
+        ];
+    </script>
     <script src="/js/homepage.js"></script>
 </head>
 <body >
-
+<audio id="music_player" hidden="true" autoplay >
+</audio>
     <%-- 发布成功显示的视图 --%>
     <div class="ui basic second coupled modal ">
         <div class="header" id="pub_status">
@@ -156,7 +165,7 @@
                     <div class="ui center aligned container">
                         <div class="statistic" data-tooltip="博客数">
                             <a class="link" href="/blogs/${userInfo.id}">
-                                <div class="value" id="blogCount"><i class="blue idea icon"></i> ${userInfo.blogNum} </div>
+                                <div class="value" id="blogCount"><i class="blue idea icon"></i> <span class="blog_num_span">${userInfo.blogNum}</span> </div>
                                 <div class="label">Blogs</div>
                             </a>
                         </div>
@@ -259,7 +268,7 @@
                                             </c:choose>
                                         </button>
                                         <button class="ui small right floated basic blue button" onclick="common.comment_toggle(${blog.id})">
-                                            Comments(${blog.commentCount})
+                                            Comments(<span id="blog_comment_count_${blog.id}">${blog.commentCount}</span>)
                                         </button>
                                     </div>
                                 </div>

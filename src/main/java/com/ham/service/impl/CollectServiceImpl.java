@@ -7,6 +7,7 @@ import com.ham.vo.BlogVO;
 import com.ham.vo.CollectVO;
 import com.ham.vo.OpResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

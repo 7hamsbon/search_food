@@ -1,5 +1,7 @@
 package com.ham.web;
 
+import com.ham.constance.EntityConst;
+import com.ham.entity.Music;
 import com.ham.entity.User;
 import com.ham.service.*;
 import com.ham.service.strategy.*;
@@ -43,6 +45,9 @@ public class ViewController {
     private LikeService likeService;
 
     @Autowired
+    private MusicService musicService;
+
+    @Autowired
     private TimeOrderBlogStrategy timeOrderBlogStrategy;
 
     @Autowired
@@ -76,6 +81,11 @@ public class ViewController {
             likeService.loadIsLike(blogs.getData(),id);
             collectService.loadIsCollect(blogs.getData(),id);
         }
+        OpResult<List<Music>> sp = musicService.getMusics(id);
+        if(sp.getData().size()<1){
+            sp = musicService.getMusics(EntityConst.DEFAULT_MUSIC_OWNER_ID);
+        }
+        model.addAttribute("musicList",sp.getData());
         model.addAttribute("userInfo",userInfo.getData().get(0));
         model.addAttribute("blogs",blogs.getData());
         return "homepage";

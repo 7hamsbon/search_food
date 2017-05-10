@@ -85,16 +85,85 @@ public class FileUploadController {
     }
 
 
+    /*
+    *               response.reset();
+                    response.setCharacterEncoding("utf-8");
+                    response.setContentType("application/x-download");
+                    response.setHeader("Accept-Ranges", "bytes");
+                    response.setHeader("Content-Length", String.valueOf(fSize));
+                    //response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(filename.getBytes(guessCharset), "utf-8") + "\"");
+                    in = new FileInputStream(file.getPath());
+
+                    long pos = 0;
+                    if (null != request.getHeader("Range")) {
+                        // 断点续传
+                        response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+                        try {
+                            pos = Long.parseLong(request.getHeader("Range").replaceAll("bytes=", "").replaceAll("-", ""));
+                        } catch (NumberFormatException e) {
+                            pos = 0;
+                        }
+                    }
+                    out = response.getOutputStream();
+                    String contentRange = new StringBuffer("bytes ").append(pos + "").append("-").append((fSize - 1) + "").append("/").append(fSize + "").toString();
+                    response.setHeader("Content-Range", contentRange);
+                    in.skip(pos);
+                    byte[] buffer = new byte[1024 * 10];
+                    int length = 0;
+                    while ((length = in.read(buffer, 0, buffer.length)) != -1) {
+                        out.write(buffer, 0, length);
+                        // Thread.sleep(100);
+                    }
+    *
+    * */
+
+
     @GetMapping("/pic")
     @Description("获取图片")
-    public void getPic(@RequestParam("filePath") String filePath, HttpServletResponse response) throws IOException {
-        OutputStream os = response.getOutputStream();
+    public void getPic(@RequestParam("filePath") String filePath,HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.debug("filePath-->>"+filePath);
-        OpResult<byte[]> r = fileService.getFile(filePath);
-        if(r.isSuccess()){
-            os.write(r.getData());
-            os.flush();
+        long pos = 0;
+        if (null != request.getHeader("Range")) {
+            // 断点续传
+            response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+            try {
+                pos = Long.parseLong(request.getHeader("Range").replaceAll("bytes=", "").replaceAll("-", ""));
+            } catch (NumberFormatException e) {
+                pos = 0;
+            }
         }
+        OpResult<byte[]> r = fileService.getFile(filePath,pos);
+        int fSize = r.getData().length;
+//        response.reset();
+        response.setStatus(206);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/x-download");
+        response.setHeader("Accept-Ranges", "bytes");
+        response.setHeader("Content-Length", String.valueOf(fSize));
+        //response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(filename.getBytes(guessCharset), "utf-8") + "\"");
+
+        OutputStream out = response.getOutputStream();
+        String contentRange = new StringBuffer("bytes ").append(pos + "").append("-").append((fSize - 1) + "").append("/").append(fSize + "").toString();
+        response.setHeader("Content-Range", contentRange);
+        out.write(r.getData());
+//        byte[] buffer = new byte[1024 * 10];
+//        int length = 0;
+//        while ((length = in.read(buffer, 0, buffer.length)) != -1) {
+//            out.write(buffer, 0, length);
+//            // Thread.sleep(100);
+//        }
+
+//        response.setBufferSize(response.getBufferSize()+1024*1024*10);
+//        Integer fileSize = r.getData().length;
+//        response.setHeader("Content-Length",fileSize.toString() );
+//        response.setHeader("Accept-Ranges", "bytes");
+//        response.setHeader("Content-Range", "bytes 0-"+(fileSize-1)+"/"+fileSize);
+//        response.setHeader("Cache-control", "no-store");
+//        response.setHeader("Pragma", "");
+//        if(r.isSuccess()){
+//            os.write(r.getData());
+//            os.flush();
+//        }
     }
 
 

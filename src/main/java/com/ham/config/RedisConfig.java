@@ -20,13 +20,15 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import java.lang.reflect.Method;
 
-
 /**
- * Created by hamsbon on 2017/2/14.
+ * Created by hamsbon on 2017/4/14.
  */
-@Configuration
+
 @EnableCaching
+@Configuration
 public class RedisConfig extends CachingConfigurerSupport {
+
+
 
     @Value("${spring.redis.host}")
     private String host;
@@ -43,7 +45,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Value("${spring.redis.pool.max-wait}")
     private long maxWaitMillis;
 
-    @Bean
+    @Bean("keyGenerator")
     public KeyGenerator wiselyKeyGenerator(){
         return new KeyGenerator() {
             @Override
@@ -62,9 +64,12 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public CacheManager cacheManager(
             @SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
-        return new RedisCacheManager(redisTemplate);
+        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+        cacheManager.setDefaultExpiration(60);
+        return cacheManager;
     }
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Bean
     public RedisTemplate<String, String> redisTemplate(
             RedisConnectionFactory factory) {
@@ -79,14 +84,16 @@ public class RedisConfig extends CachingConfigurerSupport {
         return template;
     }
 
-    @Bean
-    public JedisPool redisPoolFactory() {
+    @Bean("jedisPool")
+    public JedisPool jedisPool() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
 
         return jedisPool;
     }
+
+
+
 }
